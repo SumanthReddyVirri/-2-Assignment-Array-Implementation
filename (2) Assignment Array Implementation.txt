@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+
+class SparseMatrix {
+private:
+    std::vector<std::vector<int>> sparseMatrix;
+    int rows, cols;
+
+public:
+    SparseMatrix(int r, int c) : rows(r), cols(c) {}
+
+    void addElement(int r, int c, int value) {
+        if (r >= rows || c >= cols) {
+            std::cout << "Invalid indices." << std::endl;
+            return;
+        }
+        sparseMatrix.push_back({r, c, value});
+    }
+
+    void display() {
+        std::cout << "Row Column Value\n";
+        for (const auto& element : sparseMatrix) {
+            std::cout << element[0] << "     " << element[1] << "     " << element[2] << std::endl;
+        }
+    }
+
+    // Function to display the original matrix
+    void displayOriginal() {
+        std::vector<std::vector<int>> mat(rows, std::vector<int>(cols, 0));
+        for (const auto& element : sparseMatrix) {
+            mat[element[0]][element[1]] = element[2];
+        }
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                std::cout << mat[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+};
+
+int main() {
+    SparseMatrix sm(4, 5);
+
+    // Adding non-zero elements to the sparse matrix
+    sm.addElement(0, 2, 3);
+    sm.addElement(0, 4, 4);
+    sm.addElement(1, 2, 5);
+    sm.addElement(1, 4, 7);
+    sm.addElement(3, 1, 2);
+    sm.addElement(3, 3, 6);
+
+    std::cout << "Sparse Matrix Representation:\n";
+    sm.display();
+
+    std::cout << "\nOriginal Matrix Representation:\n";
+    sm.displayOriginal();
+
+    return 0;
+}
